@@ -1,0 +1,15 @@
+var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
+    Name: "{{ .Name }}",
+    Fields: graphql.Fields{
+        {{- range $field := .Fields }}
+        "{{ .Name }}": &graphql.Field{
+            {{ if .IsMaybe }}
+            Type: {{ .Type | LocalName }},
+            {{ else }}
+            Type: graphql.NewNonNull({{ .Type | LocalName }}),
+            {{ end }}
+            Resolve: {{ $.Name }}__{{ $field.Name }}__resolve,
+        },			
+        {{- end}}
+    },
+})

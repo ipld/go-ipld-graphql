@@ -1,0 +1,10 @@
+func {{. |LocalName}}__parseLiteral(valueAST ast.Value) interface{} {
+    builder := {{ TypePackage}}.Type.{{ .Name }}__Repr.NewBuilder()
+    switch valueAST := valueAST.(type) {
+    case *ast.StringValue:
+        builder.AssignString(valueAST.Value)
+    default:
+        return nil
+    }
+    return builder.Build()
+}

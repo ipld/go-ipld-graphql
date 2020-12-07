@@ -1,0 +1,48 @@
+{{- range $kind := .Members}}
+	{{if (eq "Map" $kind.Kind.String) }}
+	union__{{$.Name}}__{{$kind.Name}}.AddFieldConfig("", &graphql.Field{
+		Type: {{ $kind | LocalName}},
+		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+			ts, ok := p.Source.({{ TypePackage }}.{{ $kind | TypeSymbolNoRecurse }})
+			if !ok {
+				return nil, errNotNode
+			}
+			mi := ts.MapIterator()
+			items := make(map[string]interface{})
+			for !mi.Done() {
+				k, v, err := mi.Next()
+				if err != nil {
+					return nil, err
+				}
+				// TODO: key type may not be string.
+				ks, err := k.AsString()
+				if err != nil {
+					return nil, err
+				}
+				items[ks] = v
+			}
+			return items, nil
+		},
+	})
+	{{else if (eq "List" $kind.Kind.String) }}
+	union__{{$.Name}}__{{$kind.Name}}.AddFieldConfig("", &graphql.Field{
+		Type: {{ $kind | LocalName}},
+		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+			ts, ok := p.Source.({{ TypePackage }}.{{ $kind | TypeSymbolNoRecurse }})
+			if !ok {
+				return nil, errNotNode
+			}
+			li := ts.ListIterator()
+			items := make([]ipld.Node, 0)
+			for !li.Done() {
+				_, v, err := li.Next()
+				if err != nil {
+					return nil, err
+				}
+				items = append(items, v)
+			}
+			return items, nil
+		},
+	})
+	{{end}}
+{{- end}}

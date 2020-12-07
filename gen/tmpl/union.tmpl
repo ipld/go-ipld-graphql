@@ -1,0 +1,57 @@
+var {{ . | LocalName }} = graphql.NewUnion(graphql.UnionConfig{
+    Name: "{{ .Name }}",
+    Types: []*graphql.Object{
+        {{- range $kind := .Members}}
+        {{if $kind | IsStruct}}
+        {{ $kind | LocalName }},
+        {{else}}
+        union__{{$.Name}}__{{$kind.Name}},
+        {{end}}
+        {{- end}}
+    },
+    ResolveType: func(p graphql.ResolveTypeParams) *graphql.Object {
+        if node, ok := p.Value.(ipld.Node); ok {
+            switch node.Prototype() {
+                {{- range $kind := .Members}}
+            {{if $kind | IsStruct}}
+            case {{ TypePackage}}.Type.{{ $kind.Name }}:
+                fallthrough
+            case {{ TypePackage}}.Type.{{ $kind.Name }}__Repr:
+                return {{ $kind | LocalName }}
+            {{else}}
+            case {{ TypePackage}}.Type.{{ $kind.Name }}:
+                fallthrough
+            case {{ TypePackage}}.Type.{{ $kind.Name }}__Repr:
+                return union__{{$.Name}}__{{$kind.Name}}
+            {{end}}
+            {{- end}}
+            }				
+        }
+        fmt.Printf("Actual type %T: %v not in union\n", p.Value, p.Value)
+        return nil
+    },
+})
+
+{{- range $kind := .Members}}
+{{if $kind | IsStruct}}
+{{else}}
+var union__{{$.Name}}__{{$kind.Name}} = graphql.NewObject(graphql.ObjectConfig{
+    Name: "{{$.Name}}.{{$kind.Name}}",
+    Description: "Synthetic union member wrapper",
+    Fields: graphql.Fields{
+        {{ if $kind | IsBuiltIn }}
+        "": &graphql.Field{
+            Type: {{ $kind | LocalName}},
+            Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+                ts, ok := p.Source.({{ TypePackage }}.{{ $kind | TypeSymbolNoRecurse }})
+                if !ok {
+                    return nil, errNotNode
+                }
+                return ts.As{{ $kind | TypeRepr }}()
+            },
+        },
+        {{ end }}
+    },
+})
+{{end}}
+{{- end}}

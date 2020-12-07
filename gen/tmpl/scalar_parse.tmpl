@@ -1,0 +1,12 @@
+func {{ . | LocalName}}__parse(value interface{}) interface{} {
+    builder := {{ TypePackage}}.Type.{{ .Name }}__Repr.NewBuilder()
+    switch v2 := value.(type) {
+    case string:
+        builder.AssignString(v2)
+    case *string:
+        builder.AssignString(*v2)
+    default:
+        return nil
+    }
+    return builder.Build()
+}

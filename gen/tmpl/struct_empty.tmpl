@@ -1,0 +1,11 @@
+var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
+    Name: "{{ .Name }}",
+    Fields: graphql.Fields{
+        "__Exists": &graphql.Field{
+            Type: graphql.Boolean,
+            Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+                return true, nil
+            },
+        },
+    },
+})

@@ -1,0 +1,7 @@
+var {{ . | LocalName }} = graphql.NewScalar(graphql.ScalarConfig{
+    Name:        "{{ .Name }}",
+    Description: "{{ .Name }}",
+    Serialize: {{ . | LocalName}}__serialize,
+    ParseValue: {{ . | LocalName}}__parse,
+    ParseLiteral: {{. | LocalName}}__parseLiteral,
+})
