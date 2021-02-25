@@ -1,0 +1,16 @@
+# Workflow managed by ipldbot. DO NOT EDIT.
+# See https://github.com/ipld/.github/ for details.
+
+on: [push, pull_request]
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    name: Go checks
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@d9f0e73c0497685d68af8c58280f49fcaf0545ff # v2.5.1
+        with:
+          version: v1.33
+          args: "--disable-all --enable gofmt,govet"
