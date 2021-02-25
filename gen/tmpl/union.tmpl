@@ -47,7 +47,7 @@ var union__{{$.Name}}__{{$kind.Name}} = graphql.NewObject(graphql.ObjectConfig{
                 if !ok {
                     return nil, errNotNode
                 }
-                return ts.As{{ $kind | TypeRepr }}()
+                return ts.As{{ $kind | TypeKind }}()
             },
         },
         {{ end }}

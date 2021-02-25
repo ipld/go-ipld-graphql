@@ -20,12 +20,12 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                 switch ta := arg.(type) {
                 case ipld.Node:
                     out, err = ts.LookupByNode(ta)
-                case int:
+                case int64:
                     out, err = ts.LookupByIndex(ta)
                 default:
                     return nil, fmt.Errorf("unknown key type: %T", arg)
                 }
-                {{ if (and (eq .ValueType.Kind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                 if err != nil {
                     return nil, err
                 }
@@ -53,7 +53,7 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                     if err != nil {
                         return nil, err
                     }
-                    {{ if (and (eq .ValueType.Kind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                    {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                     targetCid, err := node.AsLink()
                     if err != nil {
                         return nil, err
@@ -88,7 +88,7 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                     if err != nil {
                         return nil, err
                     }
-                    {{ if (and (eq .ValueType.Kind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                    {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                     targetCid, err := node.AsLink()
                     if err != nil {
                         return nil, err

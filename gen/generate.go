@@ -1,11 +1,14 @@
 package gen
 
+//go:generate go run github.com/go-bindata/go-bindata/go-bindata -pkg gen ./tmpl
+
 import (
 	"bytes"
 	"fmt"
 	"html/template"
 	"io"
 	"os"
+	"path"
 	"path/filepath"
 
 	"github.com/ipld/go-ipld-prime/schema"
@@ -98,7 +101,7 @@ func graphQLName(t schema.Type) string {
 		}
 		return "graphql." + n
 	}
-	if t.Kind() == schema.Kind_Link {
+	if t.TypeKind() == schema.TypeKind_Link {
 		sl, ok := t.(*schema.TypeLink)
 		if !ok {
 			return fmt.Sprintf("t is link but err: %v\n", t)
@@ -150,7 +153,7 @@ func setupTemplate(c *config) {
 	f := template.FuncMap{
 		"TypePackage":         func() string { return c.schemaPkg },
 		"TypeSymbol":          func(t schema.Type) string { return graphQLType(t, true) },
-		"TypeRepr":            func(t schema.Type) string { return t.Kind().String() },
+		"TypeKind":            func(t schema.Type) string { return t.TypeKind().String() },
 		"LocalName":           graphQLName,
 		"TypeSymbolNoRecurse": func(t schema.Type) string { return graphQLType(t, false) },
 		"IsBuiltIn":           isBuiltInScalar,
@@ -184,7 +187,15 @@ func setupTemplate(c *config) {
 			return false
 		},
 	}
-	tmpl := template.Must(template.New("").Funcs(f).ParseFiles("./tmpl/*.tmpl"))
+	tmpl := template.New("").Funcs(f)
+	for _, f := range AssetNames() {
+		fd, _ := Asset(f)
+		_, err := tmpl.New(path.Base(f)).Parse(string(fd))
+		if err != nil {
+			panic(err)
+		}
+	}
+
 	c.tmpl = tmpl
 }
 

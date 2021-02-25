@@ -8,6 +8,12 @@ The current schema is read-only, allowing expression of queries for selecting an
 from graphql clients.
 
 
+Usage
+-----
+
+See the example folder for a complete usage example.
+
+
 ## License
 
 Licensed under either of
