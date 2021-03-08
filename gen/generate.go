@@ -1,6 +1,6 @@
 package gen
 
-//go:generate go run github.com/go-bindata/go-bindata/go-bindata -pkg gen ./tmpl
+//go:generate go run github.com/go-bindata/go-bindata/go-bindata -o ./tmplgen/bindata.go -pkg tmplgen ./tmpl
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 
+	"github.com/ipld/go-ipld-graphql/gen/tmplgen"
 	"github.com/ipld/go-ipld-prime/schema"
 )
 
@@ -188,8 +189,8 @@ func setupTemplate(c *config) {
 		},
 	}
 	tmpl := template.New("").Funcs(f)
-	for _, f := range AssetNames() {
-		fd, _ := Asset(f)
+	for _, f := range tmplgen.AssetNames() {
+		fd, _ := tmplgen.Asset(f)
 		_, err := tmpl.New(path.Base(f)).Parse(string(fd))
 		if err != nil {
 			panic(err)

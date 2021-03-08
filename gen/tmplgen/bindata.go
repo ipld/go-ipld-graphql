@@ -1,4 +1,4 @@
-// Code generated for package gen by go-bindata DO NOT EDIT. (@generated)
+// Code generated for package tmplgen by go-bindata DO NOT EDIT. (@generated)
 // sources:
 // tmpl/common.tmpl
 // tmpl/list.tmpl
@@ -12,7 +12,7 @@
 // tmpl/struct_field.tmpl
 // tmpl/union.tmpl
 // tmpl/union_degenerate.tmpl
-package gen
+package tmplgen
 
 import (
 	"bytes"
