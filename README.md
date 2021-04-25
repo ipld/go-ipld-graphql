@@ -2,7 +2,7 @@ go-ipld-graphql
 ===============
 
 `go-ipld-graphql` bridges IPLD data to graphql in go. This library builds upon the [`go-ipld-prime`](https://github.com/ipld/go-ipld-prime)
-golang code generation to generate a schema for use with [`graphql`](github.com/graphql-go/graphql).
+golang code generation to generate a schema for use with [`graphql`](https://github.com/graphql-go/graphql).
 
 The current schema is read-only, allowing expression of queries for selecting and interacting with data following the IPLD schema
 from graphql clients.
