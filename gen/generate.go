@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"sort"
 
 	"github.com/ipld/go-ipld-graphql/gen/tmplgen"
 	"github.com/ipld/go-ipld-prime/schema"
@@ -35,8 +36,16 @@ func Generate(pth string, pkg string, ts schema.TypeSystem, tsPkgName, tsPkgPath
 	setupTemplate(&c)
 	return withFile(filepath.Join(pth, "schema.go"), func(f io.Writer) error {
 		EmitFileHeader(f, pkg, tsPkgPath, &c)
-		for _, typ := range ts.GetTypes() {
-			switch t2 := typ.(type) {
+		types := ts.GetTypes()
+		typeKeys := make([]schema.TypeName, 0, len(types))
+		for k := range types {
+			typeKeys = append(typeKeys, k)
+		}
+		sort.Slice(typeKeys, func(i, j int) bool {
+			return typeKeys[i].String() < typeKeys[j].String()
+		})
+		for _, tk := range typeKeys {
+			switch t2 := types[tk].(type) {
 			case *schema.TypeBool:
 				EmitScalar(t2, f, &c)
 			case *schema.TypeInt:
