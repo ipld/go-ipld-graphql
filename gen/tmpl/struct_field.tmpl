@@ -1,7 +1,7 @@
 func {{ .t.Name }}__{{ .field.Name}}__resolve(p graphql.ResolveParams) (interface{}, error) {
     ts, ok := p.Source.({{ TypePackage }}.{{ .t | TypeSymbol }})
     if !ok {
-        return nil, errNotNode
+        return nil, fmt.Errorf(errUnexpectedType, p.Source, "{{ TypePackage }}.{{ .t | TypeSymbol }}")
     }
     {{ if .field.IsMaybe }}
     f := ts.Field{{ .field.Name }}()
@@ -9,7 +9,8 @@ func {{ .t.Name }}__{{ .field.Name}}__resolve(p graphql.ResolveParams) (interfac
         {{ if .field.Type | IsBuiltIn }}
         return f.Must().As{{ .field.Type | TypeKind }}()
         {{ else if (eq .field.Type.TypeKind.String "Link") }}
-        return "IS a link", nil
+        targetCid := ts.Field{{ .field.Name }}().Must().Link()
+        {{ .field.Type | ReturnTarget "targetCid" }}
         {{ else }}
         return f.Must(), nil
         {{ end }}

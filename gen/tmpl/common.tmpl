@@ -19,6 +19,7 @@ const nodeLoaderCtxKey = "NodeLoader"
 var errNotNode = fmt.Errorf("Not IPLD Node")
 var errInvalidLoader = fmt.Errorf("Invalid Loader Provided")
 var errInvalidLink = fmt.Errorf("Invalid link")
+var errUnexpectedType = "Unexpected type %T. expected %s"
 
 func resolve_map_at(p graphql.ResolveParams) (interface{}, error) {
     ts, ok := p.Source.(ipld.Node)
