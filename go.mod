@@ -1,6 +1,6 @@
 module github.com/ipld/go-ipld-graphql
 
-go 1.15
+go 1.16
 
 require (
 	github.com/ipld/go-ipld-prime v0.7.0
