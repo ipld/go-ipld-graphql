@@ -165,6 +165,7 @@ func setupTemplate(c *config) {
 		"TypePackage":         func() string { return c.schemaPkg },
 		"TypeSymbol":          func(t schema.Type) string { return graphQLType(t, true) },
 		"TypeKind":            func(t schema.Type) string { return strings.Title(t.TypeKind().String()) },
+		"Title":               func(name string) string { return strings.Title(name) },
 		"LocalName":           graphQLName,
 		"TypeSymbolNoRecurse": func(t schema.Type) string { return graphQLType(t, false) },
 		"IsBuiltIn":           isBuiltInScalar,
