@@ -15,7 +15,7 @@ func EmitStruct(t *schema.TypeStruct, w io.Writer, c *config) {
 	}
 
 	for _, field := range t.Fields() {
-		writeMethod(t.Name().String()+`__`+field.Name()+`__resolve`, "struct_field.tmpl", w, map[string]interface{}{
+		writeMethod(t.Name()+`__`+field.Name()+`__resolve`, "struct_field.tmpl", w, map[string]interface{}{
 			"t":     t,
 			"field": field,
 		}, c)
