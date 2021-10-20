@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/ipld/go-ipld-graphql/gen/tmplgen"
 	"github.com/ipld/go-ipld-prime/schema"
@@ -163,7 +164,7 @@ func setupTemplate(c *config) {
 	f := template.FuncMap{
 		"TypePackage":         func() string { return c.schemaPkg },
 		"TypeSymbol":          func(t schema.Type) string { return graphQLType(t, true) },
-		"TypeKind":            func(t schema.Type) string { return t.TypeKind().String() },
+		"TypeKind":            func(t schema.Type) string { return strings.Title(t.TypeKind().String()) },
 		"LocalName":           graphQLName,
 		"TypeSymbolNoRecurse": func(t schema.Type) string { return graphQLType(t, false) },
 		"IsBuiltIn":           isBuiltInScalar,
