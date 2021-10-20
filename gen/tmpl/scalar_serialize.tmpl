@@ -1,13 +1,13 @@
 func {{ . | LocalName}}__serialize(value interface{}) interface{} {
     switch value := value.(type) {
     case ipld.Node:
-        {{ if (eq .TypeKind.String "Int") }}
+        {{ if or (eq .TypeKind.String "Int") (eq .TypeKind.String "int") }}
         i, err := value.AsInt()
         if err != nil {
             return err
         }
         return i
-        {{ else if (eq .TypeKind.String "Bytes") }}
+        {{ else if or (eq .TypeKind.String "Bytes") (eq .TypeKind.String "bytes") }}
         b, err := value.AsBytes()
         if err != nil {
             return err
