@@ -10,11 +10,11 @@ var graphQLScalars = []string{"Int", "Float", "Boolean", "String", "ID"}
 
 func isBuiltInScalar(t schema.Type) bool {
 	for _, bi := range graphQLScalars {
-		if bi == t.Name().String() {
+		if bi == t.Name() {
 			return true
 		}
 	}
-	return t.Name().String() == "Bool"
+	return t.Name() == "Bool"
 }
 
 // EmitScalar defines a scalar type for custom scalars in the type system.

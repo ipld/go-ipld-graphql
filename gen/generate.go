@@ -42,7 +42,7 @@ func Generate(pth string, pkg string, ts schema.TypeSystem, tsPkgName, tsPkgPath
 			typeKeys = append(typeKeys, k)
 		}
 		sort.Slice(typeKeys, func(i, j int) bool {
-			return typeKeys[i].String() < typeKeys[j].String()
+			return typeKeys[i] < typeKeys[j]
 		})
 		for _, tk := range typeKeys {
 			switch t2 := types[tk].(type) {
@@ -104,7 +104,7 @@ func graphQLType(t schema.Type, allowRecurse bool) string {
 }
 
 func graphQLName(t schema.Type) string {
-	n := t.Name().String()
+	n := t.Name()
 	if isBuiltInScalar(t) {
 		if n == "Bool" {
 			n = "Boolean"
@@ -153,7 +153,7 @@ func linkTarget(t schema.Type) string {
 	switch t2 := t.(type) {
 	case *schema.TypeLink:
 		if t2.HasReferencedType() {
-			return t2.ReferencedType().Name().String()
+			return t2.ReferencedType().Name()
 		}
 	}
 	return "graphql.ID"
