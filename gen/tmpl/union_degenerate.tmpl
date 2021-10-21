@@ -1,5 +1,5 @@
 {{- range $kind := .Members}}
-	{{if (eq "Map" $kind.TypeKind.String) }}
+	{{if (eq "map" $kind.TypeKind.String) }}
 	union__{{$.Name}}__{{$kind.Name}}.AddFieldConfig("", &graphql.Field{
 		Type: {{ $kind | LocalName}},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -24,7 +24,7 @@
 			return items, nil
 		},
 	})
-	{{else if (eq "List" $kind.TypeKind.String) }}
+	{{else if (eq "list" $kind.TypeKind.String) }}
 	union__{{$.Name}}__{{$kind.Name}}.AddFieldConfig("", &graphql.Field{
 		Type: {{ $kind | LocalName}},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {

@@ -25,7 +25,7 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                 default:
                     return nil, fmt.Errorf("unknown key type: %T", arg)
                 }
-                {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                {{ if (and (eq .ValueType.TypeKind.String "link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                 if err != nil {
                     return nil, err
                 }
@@ -53,7 +53,7 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                     if err != nil {
                         return nil, err
                     }
-                    {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                    {{ if (and (eq .ValueType.TypeKind.String "link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                     targetCid, err := node.AsLink()
                     if err != nil {
                         return nil, err
@@ -88,7 +88,7 @@ var {{ . | LocalName }} = graphql.NewObject(graphql.ObjectConfig{
                     if err != nil {
                         return nil, err
                     }
-                    {{ if (and (eq .ValueType.TypeKind.String "Link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
+                    {{ if (and (eq .ValueType.TypeKind.String "link") (ne (.ValueType | LinkTarget) "graphql.ID")) }}
                     targetCid, err := node.AsLink()
                     if err != nil {
                         return nil, err

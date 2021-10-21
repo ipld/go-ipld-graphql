@@ -8,7 +8,7 @@ func {{ .t.Name }}__{{ .field.Name}}__resolve(p graphql.ResolveParams) (interfac
     if f.Exists() {
         {{ if .field.Type | IsBuiltIn }}
         return f.Must().As{{ .field.Type | TypeKind }}()
-        {{ else if (and (eq .field.Type.TypeKind.String "Link") (ne (.field.Type | LinkTarget) "graphql.ID")) }}
+        {{ else if (and (eq .field.Type.TypeKind.String "link") (ne (.field.Type | LinkTarget) "graphql.ID")) }}
         targetCid := ts.Field{{ .field.Name }}().Must().Link()
         {{ .field.Type | ReturnTarget "targetCid" }}
         {{ else }}
@@ -19,7 +19,7 @@ func {{ .t.Name }}__{{ .field.Name}}__resolve(p graphql.ResolveParams) (interfac
     }
     {{ else if .field.Type | IsBuiltIn }}
     return ts.Field{{ .field.Name }}().As{{ .field.Type | TypeKind }}()
-    {{ else if (and (eq .field.Type.TypeKind.String "Link") (ne (.field.Type | LinkTarget) "graphql.ID")) }}
+    {{ else if (and (eq .field.Type.TypeKind.String "link") (ne (.field.Type | LinkTarget) "graphql.ID")) }}
     targetCid := ts.Field{{ .field.Name }}().Link()
     {{ .field.Type | ReturnTarget "targetCid" }}
     {{ else }}
