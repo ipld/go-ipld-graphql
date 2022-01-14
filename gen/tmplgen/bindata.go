@@ -435,19 +435,19 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"tmpl": &bintree{nil, map[string]*bintree{
-		"common.tmpl":              &bintree{tmplCommonTmpl, map[string]*bintree{}},
-		"list.tmpl":                &bintree{tmplListTmpl, map[string]*bintree{}},
-		"map.tmpl":                 &bintree{tmplMapTmpl, map[string]*bintree{}},
-		"scalar.tmpl":              &bintree{tmplScalarTmpl, map[string]*bintree{}},
-		"scalar_parse.tmpl":        &bintree{tmplScalar_parseTmpl, map[string]*bintree{}},
-		"scalar_parseliteral.tmpl": &bintree{tmplScalar_parseliteralTmpl, map[string]*bintree{}},
-		"scalar_serialize.tmpl":    &bintree{tmplScalar_serializeTmpl, map[string]*bintree{}},
-		"struct.tmpl":              &bintree{tmplStructTmpl, map[string]*bintree{}},
-		"struct_empty.tmpl":        &bintree{tmplStruct_emptyTmpl, map[string]*bintree{}},
-		"struct_field.tmpl":        &bintree{tmplStruct_fieldTmpl, map[string]*bintree{}},
-		"union.tmpl":               &bintree{tmplUnionTmpl, map[string]*bintree{}},
-		"union_degenerate.tmpl":    &bintree{tmplUnion_degenerateTmpl, map[string]*bintree{}},
+	"tmpl": {nil, map[string]*bintree{
+		"common.tmpl":              {tmplCommonTmpl, map[string]*bintree{}},
+		"list.tmpl":                {tmplListTmpl, map[string]*bintree{}},
+		"map.tmpl":                 {tmplMapTmpl, map[string]*bintree{}},
+		"scalar.tmpl":              {tmplScalarTmpl, map[string]*bintree{}},
+		"scalar_parse.tmpl":        {tmplScalar_parseTmpl, map[string]*bintree{}},
+		"scalar_parseliteral.tmpl": {tmplScalar_parseliteralTmpl, map[string]*bintree{}},
+		"scalar_serialize.tmpl":    {tmplScalar_serializeTmpl, map[string]*bintree{}},
+		"struct.tmpl":              {tmplStructTmpl, map[string]*bintree{}},
+		"struct_empty.tmpl":        {tmplStruct_emptyTmpl, map[string]*bintree{}},
+		"struct_field.tmpl":        {tmplStruct_fieldTmpl, map[string]*bintree{}},
+		"union.tmpl":               {tmplUnionTmpl, map[string]*bintree{}},
+		"union_degenerate.tmpl":    {tmplUnion_degenerateTmpl, map[string]*bintree{}},
 	}},
 }}
 

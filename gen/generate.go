@@ -1,6 +1,7 @@
 package gen
 
 //go:generate go run github.com/go-bindata/go-bindata/go-bindata -o ./tmplgen/bindata.go -pkg tmplgen ./tmpl
+//go:generate gofmt -s -w ./tmplgen/bindata.go
 
 import (
 	"bytes"
