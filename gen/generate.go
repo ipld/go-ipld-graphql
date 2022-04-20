@@ -12,10 +12,10 @@ import (
 	"path"
 	"path/filepath"
 	"sort"
-	"strings"
 
 	"github.com/ipld/go-ipld-graphql/gen/tmplgen"
 	"github.com/ipld/go-ipld-prime/schema"
+	"golang.org/x/text/cases"
 )
 
 type config struct {
@@ -165,8 +165,8 @@ func setupTemplate(c *config) {
 	f := template.FuncMap{
 		"TypePackage":         func() string { return c.schemaPkg },
 		"TypeSymbol":          func(t schema.Type) string { return graphQLType(t, true) },
-		"TypeKind":            func(t schema.Type) string { return strings.Title(t.TypeKind().String()) },
-		"Title":               func(name string) string { return strings.Title(name) },
+		"TypeKind":            func(t schema.Type) string { return cases.Title(t.TypeKind().String()) },
+		"Title":               func(name string) string { return cases.Title(name) },
 		"LocalName":           graphQLName,
 		"TypeSymbolNoRecurse": func(t schema.Type) string { return graphQLType(t, false) },
 		"IsBuiltIn":           isBuiltInScalar,
